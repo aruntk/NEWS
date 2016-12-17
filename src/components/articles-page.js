@@ -64,10 +64,12 @@ class articlesPage {
   }
   routeChange(p) {
     if (!p) {
-      this.set('route.path', '/top');
+      this.set('route.path', '/latest');
     }
   }
-
+  count(array) {
+    return (array || []).length;
+  }
   toast(text) {
     if (text) {
       this.$.mainToast.hide();

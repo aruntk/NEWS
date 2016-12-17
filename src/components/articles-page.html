@@ -29,11 +29,17 @@
 #drawerToolbar{
   background: white;
 }
+@media screen and (min-width: 900px) {
 .container {
   padding: 40px;
 }
+}
 article-item {
-  margin-bottom:  20px;
+  margin: 20px;
+}
+.spinner {
+    position: fixed;
+    top: 50%;
 }
     </style>
     <!--================== <Router> ================-->
@@ -76,7 +82,7 @@ article-item {
               <iron-icon icon="today" item-icon>
               </iron-icon>
               <paper-item-body>
-                New
+                <div>Latest</div>
               </paper-item-body>
             </paper-icon-item>
             <paper-icon-item name="top">
@@ -101,11 +107,17 @@ article-item {
             <div class="title" title>NEWS App using polymer apollo</div>
           </paper-toolbar>
           <div class="vertical layout centre container">
+
+            <div class="layout horizontal center-justified">
+                {{count(articles)}} articles fetched
+            </div>
             <template is="dom-repeat" items="{{articles}}" as="article">
               <article-item article="{{article}}"></article-item>
             </template>
             <div class="vertical layout center">
-              <paper-spinner active="{{loading}}"></paper-spinner>
+              <div class="spinner">
+                <paper-spinner active="{{loading}}"></paper-spinner>
+              </div>
             </div>
 
           </div>
