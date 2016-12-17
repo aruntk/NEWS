@@ -1,0 +1,117 @@
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
+
+<link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+
+<link rel="import" href="../bower_components/platinum-sw/platinum-sw-cache.html">
+<link rel="import" href="../bower_components/platinum-sw/platinum-sw-register.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="article-item.html">
+<link rel="import" href="add-new.html">
+
+<dom-module id="articles-page">
+  <template>
+    <style>
+#drawerToolbar{
+  background: white;
+}
+.container {
+  padding: 40px;
+}
+article-item {
+  margin-bottom:  20px;
+}
+    </style>
+    <!--================== <Router> ================-->
+
+    <app-location route="{{route}}" use-hash-as-path></app-location>
+
+    <app-route route="{{route}}"
+               use-hash-as-path
+               pattern="/:type"
+               data="{{routeData}}">
+    </app-route>
+
+    <!--================= </Router> ================-->
+
+    <paper-toast id="caching-complete"
+                 duration="6000"
+                 text="Caching complete! This app will work offline.">
+    </paper-toast>
+
+    <platinum-sw-register auto-register
+                 clients-claim
+                 skip-waiting
+                 on-service-worker-installed="displayInstalledToast">
+      <platinum-sw-cache default-cache-strategy="networkFirst"
+                         precache-file="precache.json">
+      </platinum-sw-cache>
+    </platinum-sw-register>
+
+    <iron-localstorage name="my-app-storage"
+                       value="{{feed}}"
+                       ></iron-localstorage>
+
+      <paper-drawer-panel>
+        <div drawer> 
+          <paper-toolbar id="drawerToolbar">
+
+          </paper-toolbar>
+          <paper-menu selected="{{routeData.type}}" attr-for-selected="name">
+            <paper-icon-item name="latest">
+              <iron-icon icon="today" item-icon>
+              </iron-icon>
+              <paper-item-body>
+                New
+              </paper-item-body>
+            </paper-icon-item>
+            <paper-icon-item name="top">
+              <iron-icon icon="arrow-upward" item-icon>
+              </iron-icon>
+              <paper-item-body>
+                Top
+              </paper-item-body>
+            </paper-icon-item>
+            <!-- <paper-icon-item name="popular"> -->
+              <!-- <iron-icon icon="arrow-upward" item-icon> -->
+              <!-- </iron-icon> -->
+              <!-- <paper-item-body> -->
+                <!-- Popular -->
+              <!-- </paper-item-body> -->
+            <!-- </paper-icon-item> -->
+
+          </paper-menu>
+        </div>
+        <paper-header-panel mode="standard" class="fit" main>
+          <paper-toolbar>
+            <div class="title" title>NEWS App using polymer apollo</div>
+          </paper-toolbar>
+          <div class="vertical layout centre container">
+            <template is="dom-repeat" items="{{articles}}" as="article">
+              <article-item article="{{article}}"></article-item>
+            </template>
+            <div class="vertical layout center">
+              <paper-spinner active="{{loading}}"></paper-spinner>
+            </div>
+
+          </div>
+          <div class="layout horizontal center-justified">powered by&nbsp;<a href="http://newsapi.org">newsapi.org</a>
+        </paper-header-panel>
+      </paper-drawer-panel>
+      <paper-toast id="mainToast"></paper-toast>
+  </template>
+</dom-module>

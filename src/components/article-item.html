@@ -1,0 +1,29 @@
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="article-item">
+  <template>
+<style>
+.white {
+  --paper-card-header-color: white;
+}
+</style>
+    <paper-card heading="{{article.title}}" image="{{article.urlToImage}}" alt="{{article.title}}" class="white">
+      <div class="card-content">
+        <h4>{{article.description}}</h4>
+
+        {{timeAgo(article.publishedAt)}} by {{article.author}}
+      </div>
+      <div class="card-actions layout horizontal">
+        <div class="flex"></div>
+        <paper-button disabled>Share</paper-button>
+        <paper-button on-tap="goToArticle">Read More</paper-button>
+      </div>
+    </paper-card>
+  </template>
+</dom-module>
