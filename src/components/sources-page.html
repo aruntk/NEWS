@@ -29,19 +29,25 @@
   background: white;
 }
 @media screen and (min-width: 900px) {
-.container {
-  padding: 40px;
-}
+  .container {
+    padding: 40px;
+  }
 }
 source-item {
   margin: 20px;
 }
 .spinner {
-    position: fixed;
-    top: 50%;
+  position: fixed;
+  top: 50%;
 }
 .count-text {
   margin: 2px 40px;
+}
+
+.search {
+  --paper-input-container-color : white;
+  --paper-input-container-focus-color : white;
+  --paper-input-container-input-color : white;
 }
     </style>
     <!--================== <Router> ================-->
@@ -53,7 +59,7 @@ source-item {
 
     <!--================= </Router> ================-->
 
-    
+
     <iron-localstorage name="my-app-storage"
                        value="{{_sources}}"
                        ></iron-localstorage>
@@ -64,27 +70,27 @@ source-item {
 
           </paper-toolbar>
           <!-- <paper-menu selected="{{routeData.country}}" attr-for-selected="name"> -->
-            <!-- <paper-icon-item name="latest"> -->
-              <!-- <iron-icon icon="today" item-icon> -->
-              <!-- </iron-icon> -->
-              <!-- <paper-item-body> -->
-                <!-- <div>Latest</div> -->
-              <!-- </paper-item-body> -->
-            <!-- </paper-icon-item> -->
-            <!-- <paper-icon-item name="top"> -->
-              <!-- <iron-icon icon="arrow-upward" item-icon> -->
-              <!-- </iron-icon> -->
-              <!-- <paper-item-body> -->
-                <!-- Top -->
-              <!-- </paper-item-body> -->
-            <!-- </paper-icon-item> -->
-            <!-- [> <paper-icon-item name="popular"> <] -->
-              <!-- [> <iron-icon icon="arrow-upward" item-icon> <] -->
-              <!-- [> </iron-icon> <] -->
-              <!-- [> <paper-item-body> <] -->
-                <!-- [> Popular <] -->
-              <!-- [> </paper-item-body> <] -->
-            <!-- [> </paper-icon-item> <] -->
+          <!-- <paper-icon-item name="latest"> -->
+          <!-- <iron-icon icon="today" item-icon> -->
+          <!-- </iron-icon> -->
+          <!-- <paper-item-body> -->
+          <!-- <div>Latest</div> -->
+          <!-- </paper-item-body> -->
+          <!-- </paper-icon-item> -->
+          <!-- <paper-icon-item name="top"> -->
+          <!-- <iron-icon icon="arrow-upward" item-icon> -->
+          <!-- </iron-icon> -->
+          <!-- <paper-item-body> -->
+          <!-- Top -->
+          <!-- </paper-item-body> -->
+          <!-- </paper-icon-item> -->
+          <!-- [> <paper-icon-item name="popular"> <] -->
+          <!-- [> <iron-icon icon="arrow-upward" item-icon> <] -->
+          <!-- [> </iron-icon> <] -->
+          <!-- [> <paper-item-body> <] -->
+          <!-- [> Popular <] -->
+          <!-- [> </paper-item-body> <] -->
+          <!-- [> </paper-icon-item> <] -->
 
           <!-- </paper-menu> -->
         </div>
@@ -93,7 +99,7 @@ source-item {
             <content select=".toolbar-item-left"></content>
             <div class="title" title>NEWS</div>
             <div class="layout horizontal">
-              <paper-input type="search" value="{{search}}" label="Search"></paper-input>
+              <paper-input class="search" type="search" value="{{search}}" label="Search"></paper-input>
               <div class="vertical layout end-justified count-text">
                 total {{count(_sources)}} sources fetched
               </div>
@@ -103,7 +109,7 @@ source-item {
           </paper-toolbar>
           <div class="vertical layout centre container">
 
-                        <div class="layout horizontal wrap">
+            <div class="layout horizontal wrap">
               <template is="dom-repeat" items="{{_sources}}" as="source" filter="{{processFilter(search)}}">
                 <source-item source="{{source}}"></source-item>
               </template>
