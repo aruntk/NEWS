@@ -45,9 +45,33 @@
     <sources-page name="sources"
       route="{{sourceTail}}"
       hidden="{{!sourceActive}}"
-      _sources="{{sources}}"></sources-page>
+      _sources="{{sources}}">
+
+            <paper-icon-button class="toolbar-item-left"
+              icon="arrow-back"
+              on-tap="goBack"
+              disabled="{{!history.prev}}"
+              ></paper-icon-button>
+            <paper-icon-button class="toolbar-item-left"
+              icon="arrow-forward"
+              on-tap="goForward"
+              disabled="{{!history.next}}"
+              ></paper-icon-button>
+    </sources-page>
     <template is="dom-if" if="{{articleActive}}">
-      <articles-page name="articles" route="{{articleTail}}" sources="[[sources]]"></articles-page>
+      <articles-page name="articles" route="{{articleTail}}" sources="[[sources]]">
+
+            <paper-icon-button class="toolbar-item-left"
+              icon="arrow-back"
+              on-tap="goBack"
+              disabled="{{!history.prev}}"
+              ></paper-icon-button>
+            <paper-icon-button class="toolbar-item-left"
+              icon="arrow-forward"
+              on-tap="goForward"
+              disabled="{{!history.next}}"
+              ></paper-icon-button>
+      </articles-page>
     </template>
     </iron-pages>
   </template>

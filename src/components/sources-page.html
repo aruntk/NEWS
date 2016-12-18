@@ -90,17 +90,20 @@ source-item {
         </div>
         <paper-header-panel mode="standard" class="fit" main>
           <paper-toolbar>
-            <div class="title" title>NEWS App using polymer apollo</div>
-          </paper-toolbar>
-          <div class="vertical layout centre container">
-
+            <content select=".toolbar-item-left"></content>
+            <div class="title" title>NEWS</div>
             <div class="layout horizontal">
-              <paper-input type="search" value="{{search}}" label="Search" class="flex"></paper-input>
+              <paper-input type="search" value="{{search}}" label="Search"></paper-input>
               <div class="vertical layout end-justified count-text">
                 total {{count(_sources)}} sources fetched
               </div>
             </div>
-            <div class="layout horizontal wrap">
+            <content select=".toolbar-item-right"></content>
+
+          </paper-toolbar>
+          <div class="vertical layout centre container">
+
+                        <div class="layout horizontal wrap">
               <template is="dom-repeat" items="{{_sources}}" as="source" filter="{{processFilter(search)}}">
                 <source-item source="{{source}}"></source-item>
               </template>

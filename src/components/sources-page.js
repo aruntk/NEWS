@@ -87,5 +87,6 @@ class sourcesPage {
   toast(text) {
     this.fire('toast', { text });
   }
+
 }
 Polymer(sourcesPage);
