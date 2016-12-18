@@ -11,6 +11,11 @@ class articlesPage {
         type: Array,
         value: [],
       },
+      sources: Array,
+      source: {
+        type: Object,
+        computed: 'getSource(sources, routeData.source)',
+      },
       articles: {
         type: Array,
         computed: 'getArticles(feed)',
@@ -34,12 +39,7 @@ class articlesPage {
       feed: {
         query: feedQuery,
         options: 'getOptions(routeData.type, routeData.source)',
-        variables: {
-          sortBy: 'latest',
-          source: 'techcrunch',
-          offset: 0,
-          limit: 5,
-        },
+        skip: true,
         loadingKey: 'loading',
         success(r) {
           this.set('loading', r.loading);
@@ -59,10 +59,16 @@ class articlesPage {
         offset: 0,
         limit: 10,
       },
+      skip: false,
     };
   }
   getArticles(f) {
     return f && f[0] ? f[0].articles : [];
+  }
+  getSource(sources) {
+    const sourceName = this.routeData.source;
+    const source = (sources || []).filter(v => v.id === sourceName);
+    return source[0] || {};
   }
   routeChange(p) {
     if (!p) {

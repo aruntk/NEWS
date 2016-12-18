@@ -59,28 +59,15 @@ article-item {
 
           </paper-toolbar>
           <paper-menu selected="{{routeData.type}}" attr-for-selected="name">
-            <paper-icon-item name="latest">
-              <iron-icon icon="today" item-icon>
-              </iron-icon>
-              <paper-item-body>
-                <div>Latest</div>
-              </paper-item-body>
-            </paper-icon-item>
-            <paper-icon-item name="top">
-              <iron-icon icon="arrow-upward" item-icon>
-              </iron-icon>
-              <paper-item-body>
-                Top
-              </paper-item-body>
-            </paper-icon-item>
-            <!-- <paper-icon-item name="popular"> -->
-              <!-- <iron-icon icon="arrow-upward" item-icon> -->
-              <!-- </iron-icon> -->
-              <!-- <paper-item-body> -->
-                <!-- Popular -->
-              <!-- </paper-item-body> -->
-            <!-- </paper-icon-item> -->
-
+            <template is="dom-repeat" items="{{source.sortBysAvailable}}" as="sortBy">
+              <paper-icon-item name$="{{sortBy}}">
+                <iron-icon icon="today" item-icon>
+                </iron-icon>
+                <paper-item-body>
+                  <div>{{sortBy}}</div>
+                </paper-item-body>
+              </paper-icon-item>
+            </template>
           </paper-menu>
         </div>
         <paper-header-panel mode="standard" class="fit" main>
@@ -90,7 +77,7 @@ article-item {
           <div class="vertical layout centre container">
 
             <div class="layout horizontal center-justified">
-                {{count(articles)}} articles fetched
+              {{count(articles)}} articles fetched
             </div>
             <template is="dom-repeat" items="{{articles}}" as="article">
               <article-item article="{{article}}"></article-item>
@@ -105,5 +92,5 @@ article-item {
           <div class="layout horizontal center-justified">powered by&nbsp;<a href="http://newsapi.org">newsapi.org</a>
         </paper-header-panel>
       </paper-drawer-panel>
-  </template>
+            </template>
 </dom-module>

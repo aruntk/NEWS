@@ -13,6 +13,7 @@ class sourcesPage {
       },
       _sources: {
         type: Array,
+        notify: true,
         computed: 'getSources(sources)',
       },
       loading: Boolean,

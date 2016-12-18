@@ -42,11 +42,12 @@
     </platinum-sw-register>
 
     <paper-toast id="mainToast"></paper-toast>
-    <template is="dom-if" if="{{sourceActive}}">
-      <sources-page name="sources" route="{{sourceTail}}"></sources-page>
-    </template>
+    <sources-page name="sources"
+      route="{{sourceTail}}"
+      hidden="{{!sourceActive}}"
+      _sources="{{sources}}"></sources-page>
     <template is="dom-if" if="{{articleActive}}">
-      <articles-page name="articles" route="{{articleTail}}"></articles-page>
+      <articles-page name="articles" route="{{articleTail}}" sources="[[sources]]"></articles-page>
     </template>
     </iron-pages>
   </template>

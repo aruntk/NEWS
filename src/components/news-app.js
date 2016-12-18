@@ -4,14 +4,15 @@ import './sources-page';
 class newsApp {
   beforeRegister() {
     this.is = 'news-app';
-    this.listeners = {
-      toast: 'toast',
+    this.properties = {
+      sources: Array,
     };
     this.observers = [
       'routeChange(route.path)',
     ];
     this.listeners = {
       'change-route': 'changeRoute',
+      toast: 'toast',
     };
   }
   toast(e) {
