@@ -77,6 +77,13 @@ class sourcesPage {
   count(array) {
     return (array || []).length;
   }
+  processFilter(val) {
+    const search = (val || '').toLowerCase();
+    return (source) => {
+      const name = (source.name || '').toLowerCase();
+      return name.indexOf(search) > -1;
+    };
+  }
   toast(text) {
     this.fire('toast', { text });
   }
