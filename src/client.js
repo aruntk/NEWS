@@ -8,9 +8,10 @@ import createApolloClient from './helpers/create-apollo-client';
 import addGraphQLSubscriptions from './helpers/subscriptions';
 
 const wsClient = new Client('ws://localhost:8080');
+const apiUrl = 'http://localhost:3010';
 
 const networkInterface = createNetworkInterface({
-  uri: '/graphql',
+  uri: `${apiUrl}/graphql`,
   opts: {
     credentials: 'same-origin',
   },

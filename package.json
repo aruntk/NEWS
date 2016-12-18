@@ -3,6 +3,7 @@
   "description": "An example of a client-side app built with Polymer and Apollo Client.",
   "author": "Arun Kumar TK <aruntknambiar@gmail.com>",
   "private": true,
+  "main": "main.electron.js",
   "scripts": {
     "start": "webpack-dev-server --inline --hot --port 3000",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
@@ -26,6 +27,7 @@
     "json-loader": "^0.5.4",
     "webpack": "2.1.0-beta.22",
     "webpack-dev-server": "2.1.0-beta.0",
-    "bower": "^1.8.0"
+    "bower": "^1.8.0",
+    "electron": "^1.4.1"
   }
 }
