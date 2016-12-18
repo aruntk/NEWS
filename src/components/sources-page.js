@@ -1,19 +1,19 @@
 /* globals MorphBehavior */
 import { PolymerApolloBehavior } from '../client';
-import feedQuery from '../model/feed';
-import './article-item';
+import sourceQuery from '../model/source';
+import './source-item';
 
-class articlesPage {
+class sourcesPage {
   beforeRegister() {
-    this.is = 'articles-page';
+    this.is = 'sources-page';
     this.properties = Object.assign({}, this.properties, {
-      feed: {
+      sources: {
         type: Array,
         value: [],
       },
-      articles: {
+      _sources: {
         type: Array,
-        computed: 'getArticles(feed)',
+        computed: 'getSources(sources)',
       },
       loading: Boolean,
       routeData: {
@@ -23,6 +23,9 @@ class articlesPage {
     this.observers = [
       'routeChange(route.path)',
     ];
+    this.listeners = {
+      'go-to-source': 'goToSource',
+    };
   }
   get behaviors() {
     return [
@@ -31,14 +34,13 @@ class articlesPage {
   }
   get apollo() {
     return {
-      feed: {
-        query: feedQuery,
-        options: 'getOptions(routeData.type, routeData.source)',
+      sources: {
+        query: sourceQuery,
+        options: 'getOptions(routeData.category, routeData.country, routeData.language)',
         variables: {
-          sortBy: 'latest',
-          source: 'techcrunch',
-          offset: 0,
-          limit: 5,
+          category: '',
+          country: null,
+          language: null,
         },
         loadingKey: 'loading',
         success(r) {
@@ -50,24 +52,26 @@ class articlesPage {
       },
     };
   }
-  getOptions(sortBy, source) {
+  getOptions(category, country, language) {
     return {
       variables: {
-        sortBy,
-        source,
-        // not working settings right now
-        offset: 0,
-        limit: 10,
+        category,
+        country,
+        language,
       },
     };
   }
-  getArticles(f) {
-    return f && f[0] ? f[0].articles : [];
+  getSources(f) {
+    return f && f[0] ? f[0].sources : [];
   }
   routeChange(p) {
     if (!p) {
-      this.set('route.path', '/techcrunch/latest');
+      // this.set('route.path', '/general/us/en');
     }
+  }
+  goToSource(e) {
+    const url = e.detail.url;
+    this.fire('change-route', { url: `/articles/${url}` });
   }
   count(array) {
     return (array || []).length;
@@ -76,4 +80,4 @@ class articlesPage {
     this.fire('toast', { text });
   }
 }
-Polymer(articlesPage);
+Polymer(sourcesPage);

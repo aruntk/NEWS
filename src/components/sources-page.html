@@ -19,9 +19,9 @@
 <link rel="import" href="../bower_components/platinum-sw/platinum-sw-register.html">
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<link rel="import" href="article-item.html">
+<link rel="import" href="source-item.html">
 
-<dom-module id="articles-page">
+<dom-module id="sources-page">
   <template>
     <style>
 #drawerToolbar{
@@ -32,7 +32,7 @@
   padding: 40px;
 }
 }
-article-item {
+source-item {
   margin: 20px;
 }
 .spinner {
@@ -43,14 +43,15 @@ article-item {
     <!--================== <Router> ================-->
 
     <app-route route="{{route}}"
-               pattern="/:source/:type"
+               pattern="/:category/:country/:language"
                data="{{routeData}}">
     </app-route>
 
     <!--================= </Router> ================-->
 
+    
     <iron-localstorage name="my-app-storage"
-                       value="{{feed}}"
+                       value="{{_sources}}"
                        ></iron-localstorage>
 
       <paper-drawer-panel>
@@ -58,7 +59,7 @@ article-item {
           <paper-toolbar id="drawerToolbar">
 
           </paper-toolbar>
-          <paper-menu selected="{{routeData.type}}" attr-for-selected="name">
+          <paper-menu selected="{{routeData.country}}" attr-for-selected="name">
             <paper-icon-item name="latest">
               <iron-icon icon="today" item-icon>
               </iron-icon>
@@ -90,11 +91,13 @@ article-item {
           <div class="vertical layout centre container">
 
             <div class="layout horizontal center-justified">
-                {{count(articles)}} articles fetched
+                {{count(_sources)}} sources fetched
             </div>
-            <template is="dom-repeat" items="{{articles}}" as="article">
-              <article-item article="{{article}}"></article-item>
-            </template>
+            <div class="layout horizontal wrap">
+              <template is="dom-repeat" items="{{_sources}}" as="source">
+                <source-item source="{{source}}"></source-item>
+              </template>
+            </div>
             <div class="vertical layout center">
               <div class="spinner">
                 <paper-spinner active="{{loading}}"></paper-spinner>

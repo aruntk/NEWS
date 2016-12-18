@@ -1,1 +1,1 @@
-import './components/articles-page.js';
+import './components/news-app.js';

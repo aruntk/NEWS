@@ -1,0 +1,53 @@
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="articles-page.html">
+<link rel="import" href="sources-page.html">
+
+<dom-module id="news-app">
+  <template>
+    <!--================== <Router> ================-->
+
+    <app-location route="{{route}}" use-hash-as-path></app-location>
+
+    <app-route route="{{route}}"
+               use-hash-as-path
+               pattern="/sources"
+               data="{{sourceData}}"
+               active="{{sourceActive}}"
+               tail="{{sourceTail}}">
+    </app-route>
+
+    <app-route route="{{route}}"
+               use-hash-as-path
+               pattern="/articles"
+               data="{{articleData}}"
+               active="{{articleActive}}"
+               tail="{{articleTail}}">
+    </app-route>
+
+    <!--================= </Router> ================-->
+    <paper-toast id="caching-complete"
+                 duration="6000"
+                 text="Caching complete! This app will work offline.">
+    </paper-toast>
+
+    <platinum-sw-register auto-register
+                 clients-claim
+                 skip-waiting
+                 on-service-worker-installed="displayInstalledToast">
+      <platinum-sw-cache default-cache-strategy="networkFirst"
+                         precache-file="precache.json">
+      </platinum-sw-cache>
+    </platinum-sw-register>
+
+    <paper-toast id="mainToast"></paper-toast>
+    <template is="dom-if" if="{{sourceActive}}">
+      <sources-page name="sources" route="{{sourceTail}}"></sources-page>
+    </template>
+    <template is="dom-if" if="{{articleActive}}">
+      <articles-page name="articles" route="{{articleTail}}"></articles-page>
+    </template>
+    </iron-pages>
+  </template>
+</dom-module>
