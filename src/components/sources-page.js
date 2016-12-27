@@ -1,7 +1,6 @@
 /* globals MorphBehavior */
 import { PolymerApolloBehavior } from '../client';
 import sourceQuery from '../model/source';
-import './source-item';
 
 class sourcesPage {
   beforeRegister() {

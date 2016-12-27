@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="articles-page.html">
 <link rel="import" href="sources-page.html">
+<script src="news-app.js"></script>
 
 <dom-module id="news-app">
   <template>
@@ -32,14 +33,14 @@
                  text="Caching complete! This app will work offline.">
     </paper-toast>
 
-    <platinum-sw-register auto-register
-                 clients-claim
-                 skip-waiting
-                 on-service-worker-installed="displayInstalledToast">
-      <platinum-sw-cache default-cache-strategy="networkFirst"
-                         precache-file="precache.json">
-      </platinum-sw-cache>
-    </platinum-sw-register>
+    <!-- <platinum-sw-register auto-register -->
+                 <!-- clients-claim -->
+                 <!-- skip-waiting -->
+                 <!-- on-service-worker-installed="displayInstalledToast"> -->
+      <!-- <platinum-sw-cache default-cache-strategy="networkFirst" -->
+                         <!-- precache-file="precache.json"> -->
+      <!-- </platinum-sw-cache> -->
+    <!-- </platinum-sw-register> -->
 
     <paper-toast id="mainToast"></paper-toast>
     <sources-page name="sources"

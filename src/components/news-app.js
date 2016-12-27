@@ -1,6 +1,3 @@
-import './articles-page';
-import './sources-page';
-
 class newsApp {
   beforeRegister() {
     this.is = 'news-app';
