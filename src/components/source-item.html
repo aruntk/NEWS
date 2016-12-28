@@ -6,7 +6,6 @@
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<script src="source-item.js"></script>
 <dom-module id="source-item">
   <template>
     <style>
@@ -22,16 +21,35 @@ paper-card {
 }
 
     </style>
-      <paper-card image="{{getLogo(source.urlsToLogos)}}" alt="{{source.name}}" class="white">
-        <div class="card-content">
-          <h2>{{source.name}}"</h2>
-          <h4>{{source.description}}</h4>
-        </div>
-        <div class="card-actions layout horizontal">
-          <div class="flex"></div>
-          <paper-button disabled>Share</paper-button>
-          <paper-button on-tap="goToArticle">Read More</paper-button>
-        </div>
-      </paper-card>
+    <paper-card image="{{getLogo(source.urlsToLogos)}}" alt="{{source.name}}" class="white">
+      <div class="card-content">
+        <h2>{{source.name}}"</h2>
+        <h4>{{source.description}}</h4>
+      </div>
+      <div class="card-actions layout horizontal">
+        <div class="flex"></div>
+        <paper-button disabled>Share</paper-button>
+        <paper-button on-tap="goToArticle">Read More</paper-button>
+      </div>
+    </paper-card>
   </template>
 </dom-module>
+<script>
+class sourceItem {
+  beforeRegister() {
+    this.is = 'source-item';
+    this.properties = Object.assign({}, this.properties, {
+      source: Object,
+    });
+  }
+  goToArticle() {
+    this.fire('go-to-source', {
+      url: `${this.source.id}/${this.source.sortBysAvailable[0]}`,
+    });
+  }
+  getLogo(obj) {
+    return obj.large || obj.medium || obj.small;
+  }
+}
+Polymer(sourceItem);
+</script>
