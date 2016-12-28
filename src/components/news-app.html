@@ -33,45 +33,36 @@
                  text="Caching complete! This app will work offline.">
     </paper-toast>
 
-    <!-- <platinum-sw-register auto-register -->
-                 <!-- clients-claim -->
-                 <!-- skip-waiting -->
-                 <!-- on-service-worker-installed="displayInstalledToast"> -->
-      <!-- <platinum-sw-cache default-cache-strategy="networkFirst" -->
-                         <!-- precache-file="precache.json"> -->
-      <!-- </platinum-sw-cache> -->
-    <!-- </platinum-sw-register> -->
-
     <paper-toast id="mainToast"></paper-toast>
     <sources-page name="sources"
-      route="{{sourceTail}}"
-      hidden="{{!sourceActive}}"
-      _sources="{{sources}}">
+                  route="{{sourceTail}}"
+                  hidden="{{!sourceActive}}"
+                  _sources="{{sources}}">
 
-            <paper-icon-button class="toolbar-item-left"
-              icon="arrow-back"
-              on-tap="goBack"
-              disabled="{{!history.prev}}"
-              ></paper-icon-button>
-            <paper-icon-button class="toolbar-item-left"
-              icon="arrow-forward"
-              on-tap="goForward"
-              disabled="{{!history.next}}"
-              ></paper-icon-button>
+      <paper-icon-button class="toolbar-item-left"
+                         icon="arrow-back"
+                         on-tap="goBack"
+                         disabled="{{!history.prev}}"
+                         ></paper-icon-button>
+        <paper-icon-button class="toolbar-item-left"
+                           icon="arrow-forward"
+                           on-tap="goForward"
+                           disabled="{{!history.next}}"
+                           ></paper-icon-button>
     </sources-page>
     <template is="dom-if" if="{{articleActive}}">
       <articles-page name="articles" route="{{articleTail}}" sources="[[sources]]">
 
-            <paper-icon-button class="toolbar-item-left"
-              icon="arrow-back"
-              on-tap="goBack"
-              disabled="{{!history.prev}}"
-              ></paper-icon-button>
-            <paper-icon-button class="toolbar-item-left"
-              icon="arrow-forward"
-              on-tap="goForward"
-              disabled="{{!history.next}}"
-              ></paper-icon-button>
+        <paper-icon-button class="toolbar-item-left"
+                           icon="arrow-back"
+                           on-tap="goBack"
+                           disabled="{{!history.prev}}"
+                           ></paper-icon-button>
+          <paper-icon-button class="toolbar-item-left"
+                             icon="arrow-forward"
+                             on-tap="goForward"
+                             disabled="{{!history.next}}"
+                             ></paper-icon-button>
       </articles-page>
     </template>
     </iron-pages>
