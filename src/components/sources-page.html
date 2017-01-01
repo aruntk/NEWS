@@ -6,7 +6,7 @@
 
 <link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 <link rel="import" href="../bower_components/paper-header-panel/paper-header-panel.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 
@@ -18,38 +18,50 @@
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<link rel="import" href="article-item.html">
+<link rel="import" href="source-item.html">
 
-<dom-module id="articles-page">
+<!-- <script src="sources-page.js"></script> -->
+
+<dom-module id="sources-page">
   <template>
     <style>
 #drawerToolbar{
   background: white;
 }
 @media screen and (min-width: 900px) {
-.container {
-  padding: 40px;
+  .container {
+    padding: 40px;
+  }
 }
-}
-article-item {
+source-item {
   margin: 20px;
 }
 .spinner {
-    position: fixed;
-    top: 50%;
+  position: fixed;
+  top: 50%;
+}
+.count-text {
+  margin: 2px 40px;
+}
+
+.search {
+  --paper-input-container-color : white;
+  --paper-input-container-focus-color : white;
+  --paper-input-container-input-color : white;
 }
     </style>
     <!--================== <Router> ================-->
 
     <app-route route="{{route}}"
-               pattern="/:source/:type"
+               pattern="/:category/:country/:language"
                data="{{routeData}}">
     </app-route>
 
     <!--================= </Router> ================-->
 
+
     <iron-localstorage name="my-app-storage"
-                       value="{{feed}}"
+                       value="{{_sources}}"
                        ></iron-localstorage>
 
       <paper-drawer-panel>
@@ -57,32 +69,51 @@ article-item {
           <paper-toolbar id="drawerToolbar">
 
           </paper-toolbar>
-          <paper-menu selected="{{routeData.type}}" attr-for-selected="name">
-            <template is="dom-repeat" items="{{source.sortBysAvailable}}" as="sortBy">
-              <paper-icon-item name$="{{sortBy}}">
-                <iron-icon icon="today" item-icon>
-                </iron-icon>
-                <paper-item-body>
-                  <div>{{sortBy}}</div>
-                </paper-item-body>
-              </paper-icon-item>
-            </template>
-          </paper-menu>
+          <!-- <paper-menu selected="{{routeData.country}}" attr-for-selected="name"> -->
+          <!-- <paper-icon-item name="latest"> -->
+          <!-- <iron-icon icon="today" item-icon> -->
+          <!-- </iron-icon> -->
+          <!-- <paper-item-body> -->
+          <!-- <div>Latest</div> -->
+          <!-- </paper-item-body> -->
+          <!-- </paper-icon-item> -->
+          <!-- <paper-icon-item name="top"> -->
+          <!-- <iron-icon icon="arrow-upward" item-icon> -->
+          <!-- </iron-icon> -->
+          <!-- <paper-item-body> -->
+          <!-- Top -->
+          <!-- </paper-item-body> -->
+          <!-- </paper-icon-item> -->
+          <!-- [> <paper-icon-item name="popular"> <] -->
+          <!-- [> <iron-icon icon="arrow-upward" item-icon> <] -->
+          <!-- [> </iron-icon> <] -->
+          <!-- [> <paper-item-body> <] -->
+          <!-- [> Popular <] -->
+          <!-- [> </paper-item-body> <] -->
+          <!-- [> </paper-icon-item> <] -->
+
+          <!-- </paper-menu> -->
         </div>
         <paper-header-panel mode="standard" class="fit" main>
           <paper-toolbar>
             <content select=".toolbar-item-left"></content>
             <div class="title" title>NEWS</div>
-            <div class="layout horizontal center-justified">
-              {{count(articles)}} articles fetched
+            <div class="layout horizontal">
+              <paper-input class="search" type="search" value="{{search}}" label="Search"></paper-input>
+              <div class="vertical layout end-justified count-text">
+                total {{count(_sources)}} sources fetched
+              </div>
             </div>
             <content select=".toolbar-item-right"></content>
+
           </paper-toolbar>
           <div class="vertical layout centre container">
 
-            <template is="dom-repeat" items="{{articles}}" as="article">
-              <article-item article="{{article}}"></article-item>
-            </template>
+            <div class="layout horizontal wrap">
+              <template is="dom-repeat" items="{{_sources}}" as="source" filter="{{processFilter(search)}}">
+                <source-item source="{{source}}"></source-item>
+              </template>
+            </div>
             <div class="vertical layout center">
               <div class="spinner">
                 <paper-spinner active="{{loading}}"></paper-spinner>
@@ -93,29 +124,25 @@ article-item {
           <div class="layout horizontal center-justified">powered by&nbsp;<a href="http://newsapi.org">newsapi.org</a>
         </paper-header-panel>
       </paper-drawer-panel>
-            </template>
+  </template>
 </dom-module>
 <script>
 /* globals MorphBehavior */
 import { PolymerApolloBehavior } from '../client';
-import feedQuery from '../model/feed';
+import sourceQuery from '../model/source';
 
-class articlesPage {
+class sourcesPage {
   beforeRegister() {
-    this.is = 'articles-page';
+    this.is = 'sources-page';
     this.properties = Object.assign({}, this.properties, {
-      feed: {
+      sources: {
         type: Array,
         value: [],
       },
-      sources: Array,
-      source: {
-        type: Object,
-        computed: 'getSource(sources, routeData.source)',
-      },
-      articles: {
+      _sources: {
         type: Array,
-        computed: 'getArticles(feed)',
+        notify: true,
+        computed: 'getSources(sources)',
       },
       loading: Boolean,
       routeData: {
@@ -125,6 +152,9 @@ class articlesPage {
     this.observers = [
       'routeChange(route.path)',
     ];
+    this.listeners = {
+      'go-to-source': 'goToSource',
+    };
   }
   get behaviors() {
     return [
@@ -133,10 +163,14 @@ class articlesPage {
   }
   get apollo() {
     return {
-      feed: {
-        query: feedQuery,
-        options: 'getOptions(routeData.type, routeData.source)',
-        skip: true,
+      sources: {
+        query: sourceQuery,
+        options: 'getOptions(routeData.category, routeData.country, routeData.language)',
+        variables: {
+          category: '',
+          country: null,
+          language: null,
+        },
         loadingKey: 'loading',
         success(r) {
           this.set('loading', r.loading);
@@ -147,37 +181,41 @@ class articlesPage {
       },
     };
   }
-  getOptions(sortBy, source) {
+  getOptions(category, country, language) {
     return {
       variables: {
-        sortBy,
-        source,
-        // not working settings right now
-        offset: 0,
-        limit: 10,
+        category,
+        country,
+        language,
       },
-      skip: false,
     };
   }
-  getArticles(f) {
-    return f && f[0] ? f[0].articles : [];
-  }
-  getSource(sources) {
-    const sourceName = this.routeData.source;
-    const source = (sources || []).filter(v => v.id === sourceName);
-    return source[0] || {};
+  getSources(f) {
+    return f && f[0] ? f[0].sources : [];
   }
   routeChange(p) {
     if (!p) {
-      this.set('route.path', '/techcrunch/latest');
+      // this.set('route.path', '/general/us/en');
     }
+  }
+  goToSource(e) {
+    const url = e.detail.url;
+    this.fire('change-route', { url: `/articles/${url}` });
   }
   count(array) {
     return (array || []).length;
   }
+  processFilter(val) {
+    const search = (val || '').toLowerCase();
+    return (source) => {
+      const name = (source.name || '').toLowerCase();
+      return name.indexOf(search) > -1;
+    };
+  }
   toast(text) {
     this.fire('toast', { text });
   }
+
 }
-Polymer(articlesPage);
+Polymer(sourcesPage);
 </script>

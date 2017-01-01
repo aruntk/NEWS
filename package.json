@@ -19,7 +19,7 @@
     "graphql-tag": "^1.1.2",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.17.1",
-    "polymer-apollo": "^1.1.9",
+    "polymer-apollo": "^1.1.20",
     "subscriptions-transport-ws": "^0.3.0"
   },
   "devDependencies": {
@@ -34,6 +34,8 @@
     "electron-packager": "^8.4.0",
     "file-loader": "^0.8.4",
     "json-loader": "^0.5.4",
+    "offline-plugin": "^4.5.3",
+    "wc-loader": "^0.0.3",
     "webpack": "2.1.0-beta.22",
     "webpack-dev-server": "2.1.0-beta.0"
   }

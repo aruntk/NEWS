@@ -6,9 +6,9 @@
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<dom-module id="article-item">
+<dom-module id="source-item">
   <template>
-<style>
+    <style>
 .white {
   --paper-card-header-color: white;
   --paper-card-header-image-text: {
@@ -16,18 +16,15 @@
     width: 100%;
   }
 }
-.description {
-    font-size: 18px;
-    font-weight: 600;
-    white-space: pre-line;
-    word-break: break-all;
+paper-card {
+  width: 400px;
 }
-</style>
-    <paper-card heading="{{article.title}}" image="{{article.urlToImage}}" alt="{{article.title}}" class="white">
-      <div class="card-content">
-        <div class="description pre">{{article.description}}</div>
 
-        {{timeAgo(article.publishedAt)}} by {{article.author}}
+    </style>
+    <paper-card image="{{getLogo(source.urlsToLogos)}}" alt="{{source.name}}" class="white">
+      <div class="card-content">
+        <h2>{{source.name}}"</h2>
+        <h4>{{source.description}}</h4>
       </div>
       <div class="card-actions layout horizontal">
         <div class="flex"></div>
@@ -38,22 +35,21 @@
   </template>
 </dom-module>
 <script>
-import moment from 'moment';
-
-class articleItem {
+class sourceItem {
   beforeRegister() {
-    this.is = 'article-item';
+    this.is = 'source-item';
     this.properties = Object.assign({}, this.properties, {
-      article: Object,
+      source: Object,
     });
   }
-  timeAgo(date) {
-    return moment(date).fromNow();
-  }
   goToArticle() {
-    const win = window.open(this.article.url, '_blank', 'toolbar=0,location=0,menubar=0');
-    win.focus();
+    this.fire('go-to-source', {
+      url: `${this.source.id}/${this.source.sortBysAvailable[0]}`,
+    });
+  }
+  getLogo(obj) {
+    return obj.large || obj.medium || obj.small;
   }
 }
-Polymer(articleItem);
+Polymer(sourceItem);
 </script>
