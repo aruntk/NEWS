@@ -1,6 +1,7 @@
 {
-  "name": "githunt-polymer",
+  "name": "News",
   "description": "An example of a client-side app built with Polymer and Apollo Client.",
+  "version": "0.0.1",
   "author": "Arun Kumar TK <aruntknambiar@gmail.com>",
   "private": true,
   "main": "main.electron.js",
@@ -8,8 +9,9 @@
     "start": "webpack-dev-server --inline --hot --port 3000",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "postinstall": "bower install",
+    "wp:build": "webpack --config ./webpack.config.js",
     "clean:osx": "rm -rf ./build/osx",
-    "pack:osx": "npm run clean:osx && electron-packager . \"News\" --out=build/osx --platform=darwin --arch=x64 --version=1.4.12 --icon=assets/osx/news.icns --ignore=build --ignore=assets --ignore=builder.json --ignore=bower.json --ignore=README.md --ignore=.gitignore --ignore=preview.png",
+    "pack:osx": "npm run clean:osx && npm run wp:build && electron-packager . \"News\" --out=build/osx --platform=darwin --arch=x64 --version=1.4.12 --icon=assets/osx/news.icns --ignore=build/ --ignore=assets --ignore=builder.json --ignore=bower.json --ignore=README.md --ignore=.gitignore --ignore=preview.png",
     "build:osx": "npm run pack:osx && electron-builder \"build/osx/News-darwin-x64/News.app\" --platform=osx --out=\"build/osx\" --config=builder.json"
   },
   "dependencies": {
