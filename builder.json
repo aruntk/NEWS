@@ -1,0 +1,15 @@
+{
+  "osx" : {
+    "title": "News",
+    "icon": "assets/osx/news.icns",
+    "icon-size": 128,
+    "contents": [
+      { "x": 355, "y": 125, "type": "link", "path": "/Applications" },
+      { "x": 155, "y": 125, "type": "file" }
+    ]
+  },
+  "win" : {
+    "title" : "News",
+    "icon" : "assets/win/news.ico"
+  }
+}
