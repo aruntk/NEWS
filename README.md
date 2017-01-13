@@ -1,6 +1,6 @@
 # NEWS
 
-An example of a client-side app built with Polymer and Apollo Client.
+An Desktop news app built with Polymer Graphql and Electron.
 
 Please submit a pull request if you see anything that can be improved!
 
@@ -22,12 +22,13 @@ cd NEWS
 npm install
 ```
 
-### 4. Run the app
+### 4. Build the app
 
 ```
-npm start
+npm pack:osx
 ```
 
-- Open the client at http://localhost:3000
+- Open finder and go to newsapi/build/osx open the News application.
+
 - You'll be presented with the news items in the app
 
