@@ -4,3 +4,4 @@ dist/
 src/bower_components/
 build/
 npm-debug.log
+_main.electron.js
