@@ -8,8 +8,10 @@ import createApolloClient from './helpers/create-apollo-client';
 import addGraphQLSubscriptions from './helpers/subscriptions';
 
 const wsClient = new Client('ws://localhost:8080');
-const apiUrl = 'http://localhost:3010';
-
+let apiUrl = '';
+if(window && window.process && window.process.type) { // for electron
+  apiUrl = 'http://localhost:3010';
+}
 const networkInterface = createNetworkInterface({
   uri: `${apiUrl}/graphql`,
   opts: {
