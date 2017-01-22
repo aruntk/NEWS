@@ -10,9 +10,11 @@ Please submit a pull request if you see anything that can be improved!
 
 This repository is only the Polymer frontend. Run the [NEWS API](https://github.com/aruntk/news-api) first. (This is temporary, until we have a permanently hosted demo server.)
 
+
 ### 2. Install Node/npm
 
 Make sure you have Node.js installed (the app has been tested with Node `4.4.5` and `5.3.0`)
+
 
 ### 3. Clone and install dependencies
 
@@ -21,6 +23,7 @@ git clone https://github.com/aruntk/NEWS.git
 cd NEWS
 npm install
 ```
+
 
 ### 4. Build the app
 
@@ -32,3 +35,22 @@ npm pack:osx
 
 - You'll be presented with the news items in the app
 
+### Run dev server
+
+```js
+npm start
+```
+
+### Like it?
+
+:star: this repo
+
+
+
+### Found a bug?
+
+Raise an issue!
+
+### License
+
+MIT. Check [licence](licence) file.
